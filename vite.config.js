@@ -2,7 +2,7 @@ import { defineConfig, loadEnv } from 'vite'
 import { fileURLToPath } from 'url'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import * as sass from 'sass'  // 修改导入方式
+import * as sass from 'sass'  // 修改导入方式，否则会报错
 
 export default defineConfig(({ mode }) => {
   // 获取当前工作目录

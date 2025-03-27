@@ -30,26 +30,30 @@ http.interceptors.request.use(
 // 响应拦截器
 http.interceptors.response.use(
   response => {
+    const res = response.data
     // 获取状态码和消息
     const code = res.errcode || res.code
     const message = res.errmsg || res.message || '未知错误'
 
-    if (code === 200) { //成功状态
+    // 成功状态
+    if (code === 200) {
+      return res  // 直接返回数据部分，而不是整个 response 对象
+    }
+
+    // 文件下载等特殊情况，直接返回
+    if (code === undefined) {
       return response
-    } else if (code === 302) {  //登录失效
-      ElMessage({
-        message: message || '登录已过期，请重新登录',
-        type: 'error',
-        duration: 3000
-      })
+    }
+
+    // 登录失效
+    if (code === 302) {
+      ElMessage({ message: message || '登录已过期，请重新登录', type: 'error', duration: 3000 })
       // 清除用户信息
       sessionStorage.removeItem('token')
       sessionStorage.clear()
       // 跳转到登录页
       router.push({ name: 'Login' })
       return Promise.reject(new Error(message || '登录已过期'))
-    } else if (code === undefined) {  //文件下载等特殊情况，直接返回
-      return response
     }
 
     // 其他错误
