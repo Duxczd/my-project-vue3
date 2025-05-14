@@ -2,7 +2,10 @@ import { defineConfig, loadEnv } from 'vite'
 import { fileURLToPath } from 'url'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-import * as sass from 'sass'  // 修改导入方式，否则会报错
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import * as sass from 'sass'
 
 export default defineConfig(({ mode }) => {
   // 获取当前工作目录
@@ -20,7 +23,17 @@ export default defineConfig(({ mode }) => {
       // Vue模板文件编译插件
       vue(),
       // jsx文件编译插件
-      vueJsx()
+      vueJsx(),
+      // 自动引入组件
+      AutoImport({
+        resolvers: [ElementPlusResolver()],
+        // dts: fileURLToPath(new URL("./types/auto-imports.d.ts", import.meta.url))
+      }),
+      // 自动注册组件
+      Components({
+        resolvers: [ElementPlusResolver()],
+        // dts: fileURLToPath(new URL("./types/components.d.ts", import.meta.url))
+      })
     ],
     // 添加 css 预处理配置
     css: {
