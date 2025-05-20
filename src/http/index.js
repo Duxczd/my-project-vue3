@@ -4,7 +4,7 @@ import router from '@/router'
 
 // 创建 axios 实例
 const http = axios.create({
-  baseURL: import.meta.env.VITE_APP_API_BASEURL,
+  baseURL: Boolean(import.meta.env.VITE_APP_USE_MOCK) ? import.meta.env.VITE_APP_MOCK_BASEURL : import.meta.env.VITE_APP_API_BASEURL,
   timeout: 180000, // 请求超时时间
   headers: {
     'Content-Type': 'application/json;charset=utf-8'
