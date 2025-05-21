@@ -2,7 +2,7 @@ export default [
   {
     url: '/mock/user/login',
     method: 'post',
-    response: (body) => {
+    response: ({ body }) => {
       if (body.username === 'admin' && body.password === '123456') {
         return {
           code: 200,

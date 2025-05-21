@@ -2,7 +2,7 @@ import { post } from '../../http'
 
 const login = {
   login (params) {
-    return post('/mock/user/login', params)
+    return post('/user/login', params)
   }
 }
 
